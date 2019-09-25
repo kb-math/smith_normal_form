@@ -8,47 +8,47 @@
 #include <string>
 
 namespace SmithNormalFormCalculator {
-
-std::vector<int> add(std::vector<int> v, std::vector<int> w);
-
-std::vector<int> scale(int a, std::vector<int> v);
-
 int remainder(int a, int b);
 
 int quotient(int a, int b);
 
+//TODO: these should be operators in a vector/matrix class
 std::vector<int> add(std::vector<int> v, std::vector<int> w);
-
 std::vector<int> scale(int a, std::vector<int> v);
 
 std::vector<std::vector<int>> transpose (std::vector<std::vector<int>> M);
 
-void rowadd (std::vector<std::vector<int>> *M, int a, int i, int j, std::vector<std::vector<int>> *L = NULL);
+void rowadd (std::vector<std::vector<int>> *M, int a, int i, int j, 
+	std::vector<std::vector<int>> *L = NULL);
 
-void coladd (std::vector<std::vector<int>> *M, int a, int i, int j, std::vector<std::vector<int>> *R = NULL);
+void coladd (std::vector<std::vector<int>> *M, int a, int i, int j, 
+	std::vector<std::vector<int>> *R = NULL);
 
-void rowswap (std::vector<std::vector<int>> *M, int i, int j, std::vector<std::vector<int>> *L = NULL);
+void rowswap (std::vector<std::vector<int>> *M, int i, int j, 
+	std::vector<std::vector<int>> *L = NULL);
 
-void colswap (std::vector<std::vector<int>> *M, int i, int j, std::vector<std::vector<int>> *R = NULL);
+void colswap (std::vector<std::vector<int>> *M, int i, int j, 
+	std::vector<std::vector<int>> *R = NULL);
 
-void kill_row_entry (std::vector<std::vector<int>> *M, int col_ind, int row_kill, int row_aim, 
-	std::vector<std::vector<int>> *A=NULL);
+void killRowEntry (std::vector<std::vector<int>> *M, int columnIndex, int killerRowIndex, 
+	int victimRowIndex, std::vector<std::vector<int>> *A=NULL);
 
 std::vector<std::vector<int>> identity_matrix(int d);
 
-void kill_lower_part (std::vector<std::vector<int>> *M, int col_ind, int row_ind, 
+void killLowerPart (std::vector<std::vector<int>> *M, int columnIndex, int rowIndex, 
 	std::vector<std::vector<int>> *L=NULL);
 
-void kill_col_entry (std::vector<std::vector<int>> *M, int row_ind, int col_left, int col_aim, 
+void killColumnEntry (std::vector<std::vector<int>> *M, int rowIndex, int killerColumnIndex, 
+	int victimColumnIndex, std::vector<std::vector<int>> *A=NULL);
+
+void killRightPart (std::vector<std::vector<int>> *M, int rowIndex, int columnIndex, 
 	std::vector<std::vector<int>> *A=NULL);
 
-void kill_right_part (std::vector<std::vector<int>> *M, int row_ind, int col_ind, 
-	std::vector<std::vector<int>> *A=NULL);
-
-void gcd_two_cols (std::vector<std::vector<int>> *M, int col_1, int col_2, int stage, 
+void CreateGCDinTopLeft (std::vector<std::vector<int>> *M, int leftColumn, int rightColumn, int stage, 
 	std::vector<std::vector<int>> *L=NULL, std::vector<std::vector<int>> *R=NULL);
 
-void final_form (std::vector<std::vector<int>> *M, std::vector<std::vector<int>> *L=NULL, std::vector<std::vector<int>> *R=NULL);
+void ComputeSmithNormalForm (std::vector<std::vector<int>> *M, std::vector<std::vector<int>> *L=NULL, 
+	std::vector<std::vector<int>> *R=NULL);
 
 }
 

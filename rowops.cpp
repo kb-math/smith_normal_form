@@ -69,7 +69,9 @@ void rowadd (std::vector<std::vector<int>> *M, int a, int i, int j, std::vector<
     }
 }
 
-void coladd (std::vector<std::vector<int>> *M, int a, int i, int j, std::vector<std::vector<int>> *R = NULL) {
+void coladd (std::vector<std::vector<int>> *M, int a, int i, int j, 
+    std::vector<std::vector<int>> *R = NULL) {
+
     for (int k=0; k<(*M).size(); k++) {
         (*M)[k][j]=a*((*M)[k][i])+(*M)[k][j];
     }
@@ -98,7 +100,7 @@ void colswap (std::vector<std::vector<int>> *M, int i, int j, std::vector<std::v
 
 
 
-void kill_row_entry (std::vector<std::vector<int>> *M, int col_ind, int row_top, int row_aim, 
+void killRowEntry (std::vector<std::vector<int>> *M, int col_ind, int row_top, int row_aim, 
     std::vector<std::vector<int>> *L=NULL) {
     int q;
     while ( (*M)[row_aim][col_ind] != 0 ) {
@@ -108,14 +110,14 @@ void kill_row_entry (std::vector<std::vector<int>> *M, int col_ind, int row_top,
     }
 }
 
-void kill_lower_part (std::vector<std::vector<int>> *M, int row_ind, int col_ind, 
+void killLowerPart (std::vector<std::vector<int>> *M, int row_ind, int col_ind, 
     std::vector<std::vector<int>> *L=NULL) {
     for (int i=row_ind+1; i<(*M).size(); i++) {
-        kill_row_entry(M, col_ind, row_ind, i , L);
+        killRowEntry(M, col_ind, row_ind, i , L);
     }
     }
 
-void kill_col_entry (std::vector<std::vector<int>> *M, int row_ind, int col_left, int col_aim, 
+void killColumnEntry (std::vector<std::vector<int>> *M, int row_ind, int col_left, int col_aim, 
     std::vector<std::vector<int>> *R=NULL) {
     int q;
     while ( (*M)[row_ind][col_aim] != 0 ) {
@@ -125,34 +127,38 @@ void kill_col_entry (std::vector<std::vector<int>> *M, int row_ind, int col_left
     }
 }
 
-void kill_right_part (std::vector<std::vector<int>> *M, int row_ind, int col_ind, 
+void killRightPart (std::vector<std::vector<int>> *M, int row_ind, int col_ind, 
     std::vector<std::vector<int>> *A=NULL) {
     for (int i=col_ind+1; i<(*M)[0].size(); i++) {
-        kill_col_entry(M, row_ind, col_ind,i , A);}
+        killColumnEntry(M, row_ind, col_ind,i , A);}
 }
 
-void gcd_two_cols (std::vector<std::vector<int>> *M, int col_1, int col_2, int stage, 
+void CreateGCDinTopLeft (std::vector<std::vector<int>> *M, int col_1, int col_2, int stage, 
     std::vector<std::vector<int>> *L=NULL, std::vector<std::vector<int>> *R=NULL) {
     while (true) {
-        kill_lower_part(M, stage, col_1, L);
+        killLowerPart(M, stage, col_1, L);
         if ((*M)[stage][col_2]==0) {
             break;
         } else {
-            kill_col_entry(M, stage, col_1, col_2, R);
+            killColumnEntry(M, stage, col_1, col_2, R);
             }
     }
     coladd(M, 1, col_2, col_1, R);
-    kill_lower_part(M, stage, col_1, L);
+    killLowerPart(M, stage, col_1, L);
     }
 
-void final_form (std::vector<std::vector<int>> *M, std::vector<std::vector<int>> *L=NULL, std::vector<std::vector<int>> *R=NULL) {
+void ComputeSmithNormalForm (std::vector<std::vector<int>> *M, 
+    std::vector<std::vector<int>> *L=NULL, std::vector<std::vector<int>> *R=NULL) {
+
     int width_M=(*M)[0].size();
     int height_M=(*M).size();
     for (int stage=0; ((stage<width_M) && (stage<height_M)); stage++ ) {
             for (int i=stage+1; i<width_M; i++ ) {
-                gcd_two_cols (M, stage, i, stage, L, R);}
+                CreateGCDinTopLeft (M, stage, i, stage, L, R);}
 
-        if ((*M)[stage][stage]==0) {return; }
+        if ((*M)[stage][stage]==0) {
+            return; 
+        }
         for (int i=stage+1; i<width_M; i++ ) {
             int q=((*M)[stage][i])/((*M)[stage][stage]);
             coladd(M, -q, stage, i, R);}
