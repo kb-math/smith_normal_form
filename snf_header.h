@@ -44,8 +44,8 @@ void killColumnEntry (std::vector<std::vector<int>> *M, int rowIndex, int killer
 void killRightPart (std::vector<std::vector<int>> *M, int rowIndex, int columnIndex, 
 	std::vector<std::vector<int>> *A=NULL);
 
-void CreateGCDinTopLeft (std::vector<std::vector<int>> *M, int leftColumn, int rightColumn, int stage, 
-	std::vector<std::vector<int>> *L=NULL, std::vector<std::vector<int>> *R=NULL);
+void CreateGCDinTopLeft (std::vector<std::vector<int>> *M, int leftColumnIndex, int rightColumnIndex,
+	int stage, std::vector<std::vector<int>> *L=NULL, std::vector<std::vector<int>> *R=NULL);
 
 void ComputeSmithNormalForm (std::vector<std::vector<int>> *M, std::vector<std::vector<int>> *L=NULL, 
 	std::vector<std::vector<int>> *R=NULL);
