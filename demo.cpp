@@ -45,13 +45,13 @@ int main(){
     //We can now print L, R, and D,
 
     std::cout << "L = \n\n";
-    print_matrix(L);
+    PrintMatrix(L);
 
     std::cout << "R = \n\n";
-    print_matrix(R);
+    PrintMatrix(R);
 
     std::cout << "D = \n\n";
-    print_matrix(D);
+    PrintMatrix(D);
 
     return 0;
     }
