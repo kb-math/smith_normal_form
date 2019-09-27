@@ -3,12 +3,12 @@
 
 #include <vector>
 
-int digit_len (int a);
+int DigitLength(int a);
 
-int entry_fatness(std::vector<std::vector<int>> M);
+int EntryFatness(std::vector<std::vector<int>> M);
 
-void print_matrix (std::vector<std::vector<int>> M);
+void PrintMatrix(std::vector<std::vector<int>> M);
 
-void print_aug_matrix (std::vector<std::vector<int>> M, std::vector<std::vector<int>> A);
+void PrintAugMatrix(std::vector<std::vector<int>> M, std::vector<std::vector<int>> A);
 
 #endif

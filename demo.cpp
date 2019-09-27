@@ -19,7 +19,7 @@ snf_data smith_normal_form (std::vector<std::vector<int>> M) {
     std::vector<std::vector<int>>L = SmithNormalFormCalculator::identity_matrix(height);
     std::vector<std::vector<int>>R = SmithNormalFormCalculator::identity_matrix(width);
 
-    SmithNormalFormCalculator::final_form(&M,&L,&R);
+    SmithNormalFormCalculator::ComputeSmithNormalForm(&M,&L,&R);
 
 
     snf_data SNF= {L,M,R};
@@ -45,13 +45,13 @@ int main(){
     //We can now print L, R, and D,
 
     std::cout << "L = \n\n";
-    print_matrix(L);
+    PrintMatrix(L);
 
     std::cout << "R = \n\n";
-    print_matrix(R);
+    PrintMatrix(R);
 
     std::cout << "D = \n\n";
-    print_matrix(D);
+    PrintMatrix(D);
 
     return 0;
     }

@@ -6,15 +6,15 @@
 
 #include "printmatrix.h"
 
-void print_matrix (std::vector<std::vector<int>> M) {
-    int fatness = entry_fatness(M);
+void PrintMatrix (std::vector<std::vector<int>> M) {
+    int fatness = EntryFatness(M);
     for (std::vector<int> row : M ) {
         for (int x: row) {
             if (x>=0) {
                 std::cout << " "; // extra space for lack of minus sign.
             }
             std::cout << " " << x;
-            for (int i=0; i<fatness - digit_len(x); i++) {
+            for (int i=0; i < fatness - DigitLength(x); i++) {
                 std::cout << " ";
             }
         }
@@ -24,9 +24,9 @@ void print_matrix (std::vector<std::vector<int>> M) {
 }
 
 //TODO: this doesn't take fatness into account
-void print_aug_matrix (std::vector<std::vector<int>> M, std::vector<std::vector<int>> A) {
-    int col_len=M.size();
-    for (int i=0; i<col_len; i++) {
+void PrintAugMatrix(std::vector<std::vector<int>> M, std::vector<std::vector<int>> A) {
+    int columnLength = M.size();
+    for (int i = 0; i < columnLength; i++) {
         for (int x: M[i]) {
             std::cout << " " << x << " ";
         }
@@ -38,25 +38,25 @@ void print_aug_matrix (std::vector<std::vector<int>> M, std::vector<std::vector<
     }
     std::cout << "\n \n";
 }
-int digit_len (int a) { // returns number of digits of a.
-    if (a<0){
-        a=-a;}
-    if (a==0){
+int DigitLength (int a) { // returns number of digits of a.
+    if (a < 0){
+        a = -a;}
+    if (a == 0){
         return 1;
     }
     else {
-        return 1+floor(log10(a));}
+        return 1 + floor(log10(a));}
 }
 
-int entry_fatness(std::vector<std::vector<int>> M) {
-    int cur_max=1;
+int EntryFatness (std::vector<std::vector<int>> M) {
+    int currentMax = 1;
     for (std::vector<int> row: M) {
         for (int x: row) {
-            int t=digit_len(x);
-            if (cur_max < t) {
-                cur_max=t;}
+            int t = DigitLength(x);
+            if (currentMax < t) {
+                currentMax = t;}
             }
         }
-    return cur_max;}
+    return currentMax;}
 
 
