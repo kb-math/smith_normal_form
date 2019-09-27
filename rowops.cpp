@@ -4,6 +4,8 @@
 #include <string.h>
 #include <string>
 
+#include "matrix/matrix.hpp"
+
 namespace SmithNormalFormCalculator {
 
 int remainder(int a, int b) { // returns 0<= r <b such that r=a mod b
@@ -22,10 +24,10 @@ int quotient(int a, int b) { // returns q where a=q*b+r where 0<=r<b.
 
 //matrix and vector functions
 
-std::vector<std::vector<int>> identity_matrix(int d) {
-    std::vector<std::vector<int>> I;
-    I.resize(d);
+Matrix<int> identity_matrix(int d) {
+    Matrix<int> I;
     for (int i=0; i<d; i++) {
+        I.push_back({});
         for (int j=0; j<d; j++) {
                 I[i].push_back(i==j);
         }
@@ -45,105 +47,89 @@ std::vector<int> scale(int a, std::vector<int> v) {
     return v;
 }
 
-std::vector<std::vector<int>> transpose (std::vector<std::vector<int>> M) {
-    int len_row=M[0].size();
-    int len_col=M.size();
-    std::vector<std::vector<int>> Mt;
-    Mt.resize(len_row);
-    std::vector<int> curr_col;
-    curr_col.resize(len_col);
-    for (int i=0; i<len_row; i++) {
-            for (int j=0; j<len_col; j++) {
-                curr_col[j]=M[j][i];
-            }
-            Mt[i]=curr_col;
-    }
-    return Mt;
-}
-
 //add a times row i to row j
-void rowAdd (std::vector<std::vector<int>>& M, int a, int i, int j, 
-    std::vector<std::vector<int>> *L = NULL) {
+void rowAdd (Matrix<int>& M, int a, int i, int j, 
+    Matrix<int> *L = NULL) {
 
-    (M)[j]=add(scale(a,(M)[i]),(M)[j]);
+    M[j]=add(scale(a,M[i]),M[j]);
     if (L !=NULL) {
         (*L)[j]=add(scale(a,(*L)[i]),(*L)[j]);
     }
 }
 
-void columnAdd (std::vector<std::vector<int>>& M, int a, int i, int j, 
-    std::vector<std::vector<int>> *R = NULL) {
+void columnAdd (Matrix<int>& M, int a, int i, int j, 
+    Matrix<int> *R = NULL) {
 
-    for (int k=0; k<(M).size(); k++) {
-        (M)[k][j]=a*((M)[k][i])+(M)[k][j];
+    for (int k=0; k<M.GetHeight(); k++) {
+        M[k][j]=a*(M[k][i])+M[k][j];
     }
     if (R != NULL) {
-        for (int k=0; k<(*R).size(); k++) {
+        for (int k=0; k<(*R).GetHeight(); k++) {
         (*R)[k][j]=a*((*R)[k][i])+(*R)[k][j];
     }
     }
 }
 
-void rowSwap (std::vector<std::vector<int>>& M, int i, int j, std::vector<std::vector<int>> *L = NULL) {
-    std::swap((M)[i], (M)[j]);
+void rowSwap (Matrix<int>& M, int i, int j, Matrix<int> *L = NULL) {
+    std::swap(M[i], M[j]);
     if (L != NULL) {
         std::swap((*L)[i], (*L)[j]);
     }
 }
 
-void columnSwap (std::vector<std::vector<int>>& M, int i, int j, std::vector<std::vector<int>> *R = NULL) {
-    for (int k=0; k<(M).size(); k++) {
-        std::swap ((M)[k][j], (M)[k][i]);}
+void columnSwap (Matrix<int>& M, int i, int j, Matrix<int> *R = NULL) {
+    for (int k=0; k<M.GetHeight(); k++) {
+        std::swap (M[k][j], M[k][i]);}
     if (R != NULL) {
-        for (int k=0; k<(*R).size(); k++) {
+        for (int k=0; k<(*R).GetHeight(); k++) {
             std::swap ((*R)[k][j], (*R)[k][i]);}
     }
 }
 
 
 
-void killRowEntry (std::vector<std::vector<int>>& M, int columnIndex, int killerRowIndex, 
-    int victimRowIndex, std::vector<std::vector<int>> *L=NULL) {
+void killRowEntry (Matrix<int>& M, int columnIndex, int killerRowIndex, 
+    int victimRowIndex, Matrix<int> *L=NULL) {
 
     int q;
-    while ( (M)[victimRowIndex][columnIndex] != 0 ) {
-        q=quotient((M)[killerRowIndex][columnIndex] ,(M)[victimRowIndex][columnIndex]);
+    while ( M[victimRowIndex][columnIndex] != 0 ) {
+        q=quotient(M[killerRowIndex][columnIndex] ,M[victimRowIndex][columnIndex]);
         rowAdd(M, -q, victimRowIndex, killerRowIndex, L);
         rowSwap(M, killerRowIndex, victimRowIndex, L);
     }
 }
 
-void killLowerPart (std::vector<std::vector<int>>& M, int rowIndex, int columnIndex, 
-    std::vector<std::vector<int>> *L=NULL) {
+void killLowerPart (Matrix<int>& M, int rowIndex, int columnIndex, 
+    Matrix<int> *L=NULL) {
 
-    for (int i=rowIndex+1; i<(M).size(); i++) {
+    for (int i=rowIndex+1; i<M.GetHeight(); i++) {
         killRowEntry(M, columnIndex, rowIndex, i , L);
     }
     }
 
-void killColumnEntry (std::vector<std::vector<int>>& M, int rowIndex, int killerColumnIndex, 
-    int victimColumnIndex, std::vector<std::vector<int>> *R=NULL) {
+void killColumnEntry (Matrix<int>& M, int rowIndex, int killerColumnIndex, 
+    int victimColumnIndex, Matrix<int> *R=NULL) {
 
     int q;
-    while ( (M)[rowIndex][victimColumnIndex] != 0 ) {
-        q=quotient((M)[rowIndex][killerColumnIndex] ,(M)[rowIndex][victimColumnIndex]);
+    while ( M[rowIndex][victimColumnIndex] != 0 ) {
+        q=quotient(M[rowIndex][killerColumnIndex] ,M[rowIndex][victimColumnIndex]);
         columnAdd(M, -q, victimColumnIndex, killerColumnIndex, R);
         columnSwap(M, killerColumnIndex, victimColumnIndex, R);
     }
 }
 
-void killRightPart (std::vector<std::vector<int>>& M, int rowIndex, int columnIndex, 
-    std::vector<std::vector<int>> *A=NULL) {
-    for (int i=columnIndex+1; i<(M)[0].size(); i++) {
+void killRightPart (Matrix<int>& M, int rowIndex, int columnIndex, 
+    Matrix<int> *A=NULL) {
+    for (int i=columnIndex+1; i<M.GetWidth(); i++) {
         killColumnEntry(M, rowIndex, columnIndex,i , A);}
 }
 
-void CreateGCDinTopLeft (std::vector<std::vector<int>>& M, int leftColumnIndex, int rightColumnIndex, 
-    int stage, std::vector<std::vector<int>> *L=NULL, std::vector<std::vector<int>> *R=NULL) {
+void CreateGCDinTopLeft (Matrix<int>& M, int leftColumnIndex, int rightColumnIndex, 
+    int stage, Matrix<int> *L=NULL, Matrix<int> *R=NULL) {
 
     while (true) {
         killLowerPart(M, stage, leftColumnIndex, L);
-        if ((M)[stage][rightColumnIndex]==0) {
+        if (M[stage][rightColumnIndex]==0) {
             break;
         } else {
             killColumnEntry(M, stage, leftColumnIndex, rightColumnIndex, R);
@@ -153,20 +139,20 @@ void CreateGCDinTopLeft (std::vector<std::vector<int>>& M, int leftColumnIndex, 
     killLowerPart(M, stage, leftColumnIndex, L);
     }
 
-void ComputeSmithNormalForm (std::vector<std::vector<int>>& M, 
-    std::vector<std::vector<int>> *L=NULL, std::vector<std::vector<int>> *R=NULL) {
+void ComputeSmithNormalForm (Matrix<int>& M, 
+    Matrix<int> *L=NULL, Matrix<int> *R=NULL) {
 
-    int width_M=(M)[0].size();
-    int height_M=(M).size();
+    int width_M = M.GetWidth();
+    int height_M = M.GetHeight();
     for (int stage=0; ((stage<width_M) && (stage<height_M)); stage++ ) {
             for (int i=stage+1; i<width_M; i++ ) {
                 CreateGCDinTopLeft (M, stage, i, stage, L, R);}
 
-        if ((M)[stage][stage]==0) {
+        if (M[stage][stage]==0) {
             return; 
         }
         for (int i=stage+1; i<width_M; i++ ) {
-            int q=((M)[stage][i])/((M)[stage][stage]);
+            int q=(M[stage][i])/(M[stage][stage]);
             columnAdd(M, -q, stage, i, R);}
     }
 }

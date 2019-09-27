@@ -7,6 +7,8 @@
 #include <string.h>
 #include <string>
 
+#include "matrix/matrix.hpp"
+
 namespace SmithNormalFormCalculator {
 int remainder(int a, int b);
 
@@ -16,39 +18,37 @@ int quotient(int a, int b);
 std::vector<int> add(std::vector<int> v, std::vector<int> w);
 std::vector<int> scale(int a, std::vector<int> v);
 
-std::vector<std::vector<int>> transpose (std::vector<std::vector<int>> M);
+void rowAdd (Matrix<int>& M, int a, int i, int j, 
+	Matrix<int> *L = NULL);
 
-void rowAdd (std::vector<std::vector<int>>& M, int a, int i, int j, 
-	std::vector<std::vector<int>> *L = NULL);
+void columnAdd (Matrix<int>& M, int a, int i, int j, 
+	Matrix<int> *R = NULL);
 
-void columnAdd (std::vector<std::vector<int>>& M, int a, int i, int j, 
-	std::vector<std::vector<int>> *R = NULL);
+void rowSwap (Matrix<int>& M, int i, int j, 
+	Matrix<int> *L = NULL);
 
-void rowSwap (std::vector<std::vector<int>>& M, int i, int j, 
-	std::vector<std::vector<int>> *L = NULL);
+void columnSwap (Matrix<int>& M, int i, int j, 
+	Matrix<int> *R = NULL);
 
-void columnSwap (std::vector<std::vector<int>>& M, int i, int j, 
-	std::vector<std::vector<int>> *R = NULL);
+void killRowEntry (Matrix<int>& M, int columnIndex, int killerRowIndex, 
+	int victimRowIndex, Matrix<int> *A=NULL);
 
-void killRowEntry (std::vector<std::vector<int>>& M, int columnIndex, int killerRowIndex, 
-	int victimRowIndex, std::vector<std::vector<int>> *A=NULL);
+Matrix<int> identity_matrix(int d);
 
-std::vector<std::vector<int>> identity_matrix(int d);
+void killLowerPart (Matrix<int>& M, int columnIndex, int rowIndex, 
+	Matrix<int> *L=NULL);
 
-void killLowerPart (std::vector<std::vector<int>>& M, int columnIndex, int rowIndex, 
-	std::vector<std::vector<int>> *L=NULL);
+void killColumnEntry (Matrix<int>& M, int rowIndex, int killerColumnIndex, 
+	int victimColumnIndex, Matrix<int> *A=NULL);
 
-void killColumnEntry (std::vector<std::vector<int>>& M, int rowIndex, int killerColumnIndex, 
-	int victimColumnIndex, std::vector<std::vector<int>> *A=NULL);
+void killRightPart (Matrix<int>& M, int rowIndex, int columnIndex, 
+	Matrix<int> *A=NULL);
 
-void killRightPart (std::vector<std::vector<int>>& M, int rowIndex, int columnIndex, 
-	std::vector<std::vector<int>> *A=NULL);
+void CreateGCDinTopLeft (Matrix<int>& M, int leftColumnIndex, int rightColumnIndex,
+	int stage, Matrix<int> *L=NULL, Matrix<int> *R=NULL);
 
-void CreateGCDinTopLeft (std::vector<std::vector<int>>& M, int leftColumnIndex, int rightColumnIndex,
-	int stage, std::vector<std::vector<int>> *L=NULL, std::vector<std::vector<int>> *R=NULL);
-
-void ComputeSmithNormalForm (std::vector<std::vector<int>>& M, std::vector<std::vector<int>> *L=NULL, 
-	std::vector<std::vector<int>> *R=NULL);
+void ComputeSmithNormalForm (Matrix<int>& M, Matrix<int> *L=NULL, 
+	Matrix<int> *R=NULL);
 
 }
 
