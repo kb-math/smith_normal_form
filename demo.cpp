@@ -19,7 +19,7 @@ snf_data smith_normal_form (std::vector<std::vector<int>> M) {
     std::vector<std::vector<int>>L = SmithNormalFormCalculator::identity_matrix(height);
     std::vector<std::vector<int>>R = SmithNormalFormCalculator::identity_matrix(width);
 
-    SmithNormalFormCalculator::ComputeSmithNormalForm(&M,&L,&R);
+    SmithNormalFormCalculator::ComputeSmithNormalForm(M,&L,&R);
 
 
     snf_data SNF= {L,M,R};
