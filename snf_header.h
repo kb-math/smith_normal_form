@@ -18,16 +18,16 @@ std::vector<int> scale(int a, std::vector<int> v);
 
 std::vector<std::vector<int>> transpose (std::vector<std::vector<int>> M);
 
-void rowadd (std::vector<std::vector<int>> *M, int a, int i, int j, 
+void rowAdd (std::vector<std::vector<int>> *M, int a, int i, int j, 
 	std::vector<std::vector<int>> *L = NULL);
 
-void coladd (std::vector<std::vector<int>> *M, int a, int i, int j, 
+void columnAdd (std::vector<std::vector<int>> *M, int a, int i, int j, 
 	std::vector<std::vector<int>> *R = NULL);
 
-void rowswap (std::vector<std::vector<int>> *M, int i, int j, 
+void rowSwap (std::vector<std::vector<int>> *M, int i, int j, 
 	std::vector<std::vector<int>> *L = NULL);
 
-void colswap (std::vector<std::vector<int>> *M, int i, int j, 
+void columnSwap (std::vector<std::vector<int>> *M, int i, int j, 
 	std::vector<std::vector<int>> *R = NULL);
 
 void killRowEntry (std::vector<std::vector<int>> *M, int columnIndex, int killerRowIndex, 

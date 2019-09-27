@@ -62,7 +62,7 @@ std::vector<std::vector<int>> transpose (std::vector<std::vector<int>> M) {
 }
 
 //add a times row i to row j
-void rowadd (std::vector<std::vector<int>> *M, int a, int i, int j, 
+void rowAdd (std::vector<std::vector<int>> *M, int a, int i, int j, 
     std::vector<std::vector<int>> *L = NULL) {
 
     (*M)[j]=add(scale(a,(*M)[i]),(*M)[j]);
@@ -71,7 +71,7 @@ void rowadd (std::vector<std::vector<int>> *M, int a, int i, int j,
     }
 }
 
-void coladd (std::vector<std::vector<int>> *M, int a, int i, int j, 
+void columnAdd (std::vector<std::vector<int>> *M, int a, int i, int j, 
     std::vector<std::vector<int>> *R = NULL) {
 
     for (int k=0; k<(*M).size(); k++) {
@@ -84,14 +84,14 @@ void coladd (std::vector<std::vector<int>> *M, int a, int i, int j,
     }
 }
 
-void rowswap (std::vector<std::vector<int>> *M, int i, int j, std::vector<std::vector<int>> *L = NULL) {
+void rowSwap (std::vector<std::vector<int>> *M, int i, int j, std::vector<std::vector<int>> *L = NULL) {
     std::swap((*M)[i], (*M)[j]);
     if (L != NULL) {
         std::swap((*L)[i], (*L)[j]);
     }
 }
 
-void colswap (std::vector<std::vector<int>> *M, int i, int j, std::vector<std::vector<int>> *R = NULL) {
+void columnSwap (std::vector<std::vector<int>> *M, int i, int j, std::vector<std::vector<int>> *R = NULL) {
     for (int k=0; k<(*M).size(); k++) {
         std::swap ((*M)[k][j], (*M)[k][i]);}
     if (R != NULL) {
@@ -108,8 +108,8 @@ void killRowEntry (std::vector<std::vector<int>> *M, int columnIndex, int killer
     int q;
     while ( (*M)[victimRowIndex][columnIndex] != 0 ) {
         q=quotient((*M)[killerRowIndex][columnIndex] ,(*M)[victimRowIndex][columnIndex]);
-        rowadd(M, -q, victimRowIndex, killerRowIndex, L);
-        rowswap(M, killerRowIndex, victimRowIndex, L);
+        rowAdd(M, -q, victimRowIndex, killerRowIndex, L);
+        rowSwap(M, killerRowIndex, victimRowIndex, L);
     }
 }
 
@@ -127,8 +127,8 @@ void killColumnEntry (std::vector<std::vector<int>> *M, int rowIndex, int killer
     int q;
     while ( (*M)[rowIndex][victimColumnIndex] != 0 ) {
         q=quotient((*M)[rowIndex][killerColumnIndex] ,(*M)[rowIndex][victimColumnIndex]);
-        coladd(M, -q, victimColumnIndex, killerColumnIndex, R);
-        colswap(M, killerColumnIndex, victimColumnIndex, R);
+        columnAdd(M, -q, victimColumnIndex, killerColumnIndex, R);
+        columnSwap(M, killerColumnIndex, victimColumnIndex, R);
     }
 }
 
@@ -149,7 +149,7 @@ void CreateGCDinTopLeft (std::vector<std::vector<int>> *M, int leftColumnIndex, 
             killColumnEntry(M, stage, leftColumnIndex, rightColumnIndex, R);
             }
     }
-    coladd(M, 1, rightColumnIndex, leftColumnIndex, R);
+    columnAdd(M, 1, rightColumnIndex, leftColumnIndex, R);
     killLowerPart(M, stage, leftColumnIndex, L);
     }
 
@@ -167,7 +167,7 @@ void ComputeSmithNormalForm (std::vector<std::vector<int>> *M,
         }
         for (int i=stage+1; i<width_M; i++ ) {
             int q=((*M)[stage][i])/((*M)[stage][stage]);
-            coladd(M, -q, stage, i, R);}
+            columnAdd(M, -q, stage, i, R);}
     }
 }
 
