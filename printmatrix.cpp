@@ -6,9 +6,10 @@
 
 #include "printmatrix.h"
 
-void PrintMatrix (std::vector<std::vector<int>> M) {
+void PrintMatrix (const Matrix<int>& M) {
     int fatness = EntryFatness(M);
-    for (std::vector<int> row : M ) {
+    for (int rowIndex = 0; rowIndex < M.GetHeight(); rowIndex++ ) {
+        const std::vector<int>& row = M[rowIndex];
         for (int x: row) {
             if (x>=0) {
                 std::cout << " "; // extra space for lack of minus sign.
@@ -23,21 +24,6 @@ void PrintMatrix (std::vector<std::vector<int>> M) {
     std::cout << "\n \n";
 }
 
-//TODO: this doesn't take fatness into account
-void PrintAugMatrix(std::vector<std::vector<int>> M, std::vector<std::vector<int>> A) {
-    int columnLength = M.size();
-    for (int i = 0; i < columnLength; i++) {
-        for (int x: M[i]) {
-            std::cout << " " << x << " ";
-        }
-        std::cout << "|";
-        for (int x: A[i]) {
-            std::cout << " " << x << " ";
-        }
-        std::cout << "\n";
-    }
-    std::cout << "\n \n";
-}
 int DigitLength (int a) { // returns number of digits of a.
     if (a < 0){
         a = -a;}
@@ -48,9 +34,10 @@ int DigitLength (int a) { // returns number of digits of a.
         return 1 + floor(log10(a));}
 }
 
-int EntryFatness (std::vector<std::vector<int>> M) {
+int EntryFatness (const Matrix<int>& M) {
     int currentMax = 1;
-    for (std::vector<int> row: M) {
+    for (int rowIndex = 0; rowIndex < M.GetHeight(); rowIndex++ ) {
+        const std::vector<int>& row = M[rowIndex];
         for (int x: row) {
             int t = DigitLength(x);
             if (currentMax < t) {
@@ -58,5 +45,3 @@ int EntryFatness (std::vector<std::vector<int>> M) {
             }
         }
     return currentMax;}
-
-

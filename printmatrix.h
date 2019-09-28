@@ -3,12 +3,12 @@
 
 #include <vector>
 
+#include "matrix/matrix.hpp"
+
 int DigitLength(int a);
 
-int EntryFatness(std::vector<std::vector<int>> M);
+int EntryFatness(const Matrix<int>& M);
 
-void PrintMatrix(std::vector<std::vector<int>> M);
-
-void PrintAugMatrix(std::vector<std::vector<int>> M, std::vector<std::vector<int>> A);
+void PrintMatrix(const Matrix<int>& M);
 
 #endif
