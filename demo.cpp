@@ -7,7 +7,7 @@
 #include "matrix/matrix.hpp"
 #include "matrix/matrixOperations.h"
 #include "printmatrix.h"
-#include "snf_header.h"
+#include "smithNormalForm.h"
 
 struct snf_data {
         Matrix<int> L;
