@@ -5,6 +5,7 @@
 #include <string>
 
 #include "matrix/matrix.hpp"
+#include "matrix/matrixOperations.h"
 #include "printmatrix.h"
 #include "snf_header.h"
 
@@ -17,8 +18,8 @@ struct snf_data {
 snf_data smith_normal_form (Matrix<int> M) {
     int width = M.GetWidth();
     int height = M.GetHeight();
-    Matrix<int>L = SmithNormalFormCalculator::identity_matrix(height);
-    Matrix<int>R = SmithNormalFormCalculator::identity_matrix(width);
+    Matrix<int> L = identity_matrix(height);
+    Matrix<int> R = identity_matrix(width);
 
     SmithNormalFormCalculator::ComputeSmithNormalForm(M,&L,&R);
 
