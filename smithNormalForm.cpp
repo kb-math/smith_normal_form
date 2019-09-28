@@ -6,6 +6,7 @@
 
 #include "matrix/matrix.hpp"
 #include "matrix/matrixOperations.h"
+#include "smithNormalForm.h"
 
 namespace SmithNormalFormCalculator {
 
@@ -24,7 +25,7 @@ int quotient(int a, int b) { // returns q where a=q*b+r where 0<=r<b.
 }
 
 void killRowEntry (Matrix<int>& M, int columnIndex, int killerRowIndex, 
-    int victimRowIndex, Matrix<int> *L=NULL) {
+    int victimRowIndex, Matrix<int> *L) {
 
     int q;
     while ( M[victimRowIndex][columnIndex] != 0 ) {
@@ -35,7 +36,7 @@ void killRowEntry (Matrix<int>& M, int columnIndex, int killerRowIndex,
 }
 
 void killLowerPart (Matrix<int>& M, int rowIndex, int columnIndex, 
-    Matrix<int> *L=NULL) {
+    Matrix<int> *L) {
 
     for (int i=rowIndex+1; i<M.GetHeight(); i++) {
         killRowEntry(M, columnIndex, rowIndex, i , L);
@@ -43,7 +44,7 @@ void killLowerPart (Matrix<int>& M, int rowIndex, int columnIndex,
     }
 
 void killColumnEntry (Matrix<int>& M, int rowIndex, int killerColumnIndex, 
-    int victimColumnIndex, Matrix<int> *R=NULL) {
+    int victimColumnIndex, Matrix<int> *R) {
 
     int q;
     while ( M[rowIndex][victimColumnIndex] != 0 ) {
@@ -54,13 +55,13 @@ void killColumnEntry (Matrix<int>& M, int rowIndex, int killerColumnIndex,
 }
 
 void killRightPart (Matrix<int>& M, int rowIndex, int columnIndex, 
-    Matrix<int> *A=NULL) {
+    Matrix<int> *A) {
     for (int i=columnIndex+1; i<M.GetWidth(); i++) {
         killColumnEntry(M, rowIndex, columnIndex,i , A);}
 }
 
 void CreateGCDinTopLeft (Matrix<int>& M, int leftColumnIndex, int rightColumnIndex, 
-    int stage, Matrix<int> *L=NULL, Matrix<int> *R=NULL) {
+    int stage, Matrix<int> *L, Matrix<int> *R) {
 
     while (true) {
         killLowerPart(M, stage, leftColumnIndex, L);
@@ -75,7 +76,7 @@ void CreateGCDinTopLeft (Matrix<int>& M, int leftColumnIndex, int rightColumnInd
     }
 
 void ComputeSmithNormalForm (Matrix<int>& M, 
-    Matrix<int> *L=NULL, Matrix<int> *R=NULL) {
+    Matrix<int> *L, Matrix<int> *R) {
 
     int width_M = M.GetWidth();
     int height_M = M.GetHeight();
