@@ -5,7 +5,7 @@ See demo.cpp, where you can input the matrix A (whose Smith Normal Form you wish
 
 To build the demo run the command (on linux) 
 ```
-/smith_normal_form$ sh build_demo.sh 
+sh build_demo.sh 
 
 ```
 
