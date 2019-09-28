@@ -41,7 +41,7 @@ void killLowerPart (Matrix<int>& M, int rowIndex, int columnIndex,
     for (int i=rowIndex+1; i<M.GetHeight(); i++) {
         killRowEntry(M, columnIndex, rowIndex, i , L);
     }
-    }
+}
 
 void killColumnEntry (Matrix<int>& M, int rowIndex, int killerColumnIndex, 
     int victimColumnIndex, Matrix<int> *R) {
@@ -73,7 +73,7 @@ void CreateGCDinTopLeft (Matrix<int>& M, int leftColumnIndex, int rightColumnInd
     }
     columnAdd(M, 1, rightColumnIndex, leftColumnIndex, R);
     killLowerPart(M, stage, leftColumnIndex, L);
-    }
+}
 
 void ComputeSmithNormalForm (Matrix<int>& M, 
     Matrix<int> *L, Matrix<int> *R) {
@@ -93,4 +93,4 @@ void ComputeSmithNormalForm (Matrix<int>& M,
     }
 }
 
-}
+} // Namespace end
