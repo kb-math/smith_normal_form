@@ -38,6 +38,7 @@ int main(){
 
     // We will find invertible integer matrices L and R (with integer inverses)
     // such that D=LAR is diagonal and each diagonal entry of D divides the next.
+    // TODO: actually more useful to decompose A = LDR instead
 
     snf_data SNF_A = smith_normal_form (A);
 
@@ -55,6 +56,10 @@ int main(){
 
     std::cout << "D = \n\n";
     PrintMatrix(D);
+
+    // now multiply them together to see if the product is equal  
+    std::cout << "L*A*R = \n\n";
+    PrintMatrix(L*A*R); // it should equal to D  (TODO: this could be a unit test)
 
     return 0;
     }
