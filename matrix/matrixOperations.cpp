@@ -14,7 +14,7 @@ std::vector<int> scale(int a, std::vector<int> v) {
     return v;
 }
 
-Matrix<int> identity_matrix(int d) {
+Matrix<int> IdentityMatrix(int d) {
     Matrix<int> I;
     for (int i=0; i<d; i++) {
         I.push_back({});

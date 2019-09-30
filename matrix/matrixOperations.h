@@ -8,7 +8,7 @@
 std::vector<int> add(std::vector<int> v, std::vector<int> w);
 std::vector<int> scale(int a, std::vector<int> v);
 
-Matrix<int> identity_matrix(int d);
+Matrix<int> IdentityMatrix(int d);
 
 void rowAdd (Matrix<int>& M, int a, int i, int j, 
 	Matrix<int> *L = NULL);

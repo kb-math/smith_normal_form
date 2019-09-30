@@ -9,25 +9,6 @@
 #include "printmatrix.h"
 #include "smithNormalForm.h"
 
-struct snf_data {
-        Matrix<int> L;
-        Matrix<int> D;
-        Matrix<int> R;
-    };
-
-snf_data smith_normal_form (Matrix<int> M) {
-    int width = M.GetWidth();
-    int height = M.GetHeight();
-    Matrix<int> L = identity_matrix(height);
-    Matrix<int> R = identity_matrix(width);
-
-    SmithNormalFormCalculator::ComputeSmithNormalForm(M,&L,&R);
-
-
-    snf_data SNF= {L,M,R};
-
-    return SNF;}
-
 int main(){
 
     // A = {row_1, row_2, row_3, ..., row_n}, edit as you please! A does NOT have to be square.
@@ -40,11 +21,11 @@ int main(){
     // such that D=LAR is diagonal and each diagonal entry of D divides the next.
     // TODO: actually more useful to decompose A = LDR instead
 
-    snf_data SNF_A = smith_normal_form (A);
+    SmithNormalFormDecomposition result = SmithNormalFormCalculator::ComputeSmithNormalForm(A);
 
-    Matrix<int> L=SNF_A.L;
-    Matrix<int> D=SNF_A.D;
-    Matrix<int> R=SNF_A.R;
+    Matrix<int> L = std::move(result.L);
+    Matrix<int> D = std::move(result.D);
+    Matrix<int> R = std::move(result.R);
 
     //We can now print L, R, and D,
 
@@ -63,6 +44,4 @@ int main(){
 
     return 0;
     }
-
-
-
+    
