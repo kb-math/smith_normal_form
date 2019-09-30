@@ -75,22 +75,26 @@ void CreateGCDinTopLeft (Matrix<int>& M, int leftColumnIndex, int rightColumnInd
     killLowerPart(M, stage, leftColumnIndex, L);
 }
 
-void ComputeSmithNormalForm (Matrix<int>& M, 
-    Matrix<int> *L, Matrix<int> *R) {
-
-    int width_M = M.GetWidth();
+SmithNormalFormDecomposition ComputeSmithNormalForm (Matrix<int> M) {
     int height_M = M.GetHeight();
+    int width_M = M.GetWidth();
+
+    Matrix<int> L = IdentityMatrix(height_M);
+    Matrix<int> R = IdentityMatrix(width_M);
+
     for (int stage=0; ((stage<width_M) && (stage<height_M)); stage++ ) {
             for (int i=stage+1; i<width_M; i++ ) {
-                CreateGCDinTopLeft (M, stage, i, stage, L, R);}
+                CreateGCDinTopLeft (M, stage, i, stage, &L, &R);}
 
         if (M[stage][stage]==0) {
-            return; 
+            break; 
         }
         for (int i=stage+1; i<width_M; i++ ) {
             int q=(M[stage][i])/(M[stage][stage]);
-            columnAdd(M, -q, stage, i, R);}
+            columnAdd(M, -q, stage, i, &R);}
     }
+
+    return SmithNormalFormDecomposition(L, M, R);
 }
 
 } // Namespace end
