@@ -2,16 +2,21 @@
 
 
 //matrix and vector functions
-std::vector<int> add(std::vector<int> v, std::vector<int> w) {
+std::vector<int> add(const std::vector<int>& v, const std::vector<int>& w) {
+    std::vector<int> sum;
+    sum.reserve(v.size());
+    std::cout << std::endl;
     for(int i=0; i<v.size(); i++) {
-            v[i]=v[i]+w[i];}
-    return v;
+            sum.push_back(v[i]+w[i]);}
+    return sum;
 }
 
-std::vector<int> scale(int a, std::vector<int> v) {
+std::vector<int> scale(int a, const std::vector<int>& v) {
+    std::vector<int> scaled;
+    scaled.reserve(v.size());
     for(int i=0; i<v.size(); i++) {
-            v[i]=a * v[i];}
-    return v;
+            scaled.push_back(a * v[i]);}
+    return scaled;
 }
 
 Matrix<int> IdentityMatrix(int d) {

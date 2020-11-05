@@ -5,8 +5,8 @@
 
 
 //TODO: these should be operators in a vector/matrix class
-std::vector<int> add(std::vector<int> v, std::vector<int> w);
-std::vector<int> scale(int a, std::vector<int> v);
+std::vector<int> add(const std::vector<int>& v, const std::vector<int>& w);
+std::vector<int> scale(int a, const std::vector<int>& v);
 
 Matrix<int> IdentityMatrix(int d);
 
