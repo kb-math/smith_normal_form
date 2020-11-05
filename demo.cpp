@@ -29,6 +29,9 @@ int main(){
 
     //We can now print L, R, and D,
 
+    std::cout << "A = \n\n";
+    PrintMatrix(A);
+
     std::cout << "L = \n\n";
     PrintMatrix(L);
 
